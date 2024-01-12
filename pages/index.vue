@@ -1,10 +1,6 @@
 <template>
-  <!-- <div class="con">
+  <div class="con">
     <NuxtLink class="transparent-button" to="/game">Start Game</NuxtLink>
-  </div> -->
-  <div class="progress"></div>
-  <div class="container">
-    <div class="item" v-for="p in pokedex"></div>
   </div>
 </template>
 <script setup>
@@ -46,18 +42,5 @@ const pokedex = ref(new Array(151).fill('null'));
 
   /* Adding a smooth transition for a nice visual effect on color change */
   transition: color 0.3s ease-in-out;
-}
-.container {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 40px 100px;
-  align-content: space-evenly;
-  gap: 50px;
-}
-.item {
-  width: 200px;
-  height: 200px;
-  border: 1px solid rgb(28, 203, 2);
-  border-radius: 40px;
 }
 </style>

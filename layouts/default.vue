@@ -5,12 +5,12 @@
         <ul>
           <li><NuxtLink to="/">Home</NuxtLink></li>
           <li><NuxtLink to="/game">Game</NuxtLink></li>
-          <li><NuxtLink>Pokedex</NuxtLink></li>
+          <li><NuxtLink to="/pokedex">Pokedex</NuxtLink></li>
         </ul>
       </nav>
     </header>
     <div>
-      <div class="">
+      <div class="imageContainer">
         <slot></slot>
       </div>
     </div>
