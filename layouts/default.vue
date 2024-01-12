@@ -10,7 +10,9 @@
       </nav>
     </header>
     <div>
-      <slot></slot>
+      <div class="">
+        <slot></slot>
+      </div>
     </div>
   </div>
 </template>
@@ -34,21 +36,31 @@ nav {
     li {
       padding: 10px 5px;
 
-      &:hover {
-        color: #f90202;
-      }
-
       a {
         color: rgb(47, 52, 52);
         width: 100%;
         height: 100%;
         font-size: 35px;
+
+        &:hover {
+          color: #67ea20;
+        }
       }
     }
   }
 }
 
 .router-link-active {
-  color: #e00909;
+  color: #13cc1f;
+}
+.imageContainer {
+  display: flex;
+  justify-content: space-evenly;
+  background-image: url('../assets/images/forest3.jpg');
+  width: 100%;
+  height: 900px; /* Set the desired height */
+  background-size: cover; /* Adjust as needed (cover, contain, etc.) */
+  background-position: center center; /* Adjust the position if needed */
+  background-repeat: no-repeat; /* Prevent image repetition */
 }
 </style>

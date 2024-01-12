@@ -62,13 +62,16 @@ const getRandomPokemon = async () => {
   const { data } = await useFetch(
     `https://pokeapi.co/api/v2/pokemon/${randomPokemonId}/`
   );
-  fetching.value = false;
   gameResult.value = false;
+  fetching.value = false;
+
   targetPokemon.value = data.value;
 };
 const startGame = () => {
   getRandomPokemon();
   gameStarted.value = true;
+  //guessedCount.value = 0;
+  guessedPokemons.value = [];
 };
 const stopGame = () => {
   gameStarted.value = false;
@@ -78,15 +81,15 @@ const checkGuess = () => {
   if (userGuess.value) {
     if (userGuess.value.toLowerCase() === targetPokemon.value.name) {
       gameResult.value = true;
-      if (guessedPokemons.length >= 2) {
-        gameStarted.value = false;
-      }
       guessedPokemons.push(targetPokemon.value);
 
       blacklist.push(currentPokemon);
       setTimeout(() => {
         getRandomPokemon();
       }, 2000);
+    }
+    if (guessedPokemons.length >= 151) {
+      gameStarted.value = false;
     }
   }
 };
@@ -145,7 +148,9 @@ onMounted(() => {
   color: rgb(0, 0, 0);
   border-width: 7px;
   border-style: solid;
-  border-image: linear-gradient(to bottom, red, rgba(0, 0, 0, 0)) 1 100%;
+  border-image: linear-gradient(to bottom, rgb(2, 255, 18), rgba(0, 0, 0, 0)) 1
+    100%;
+  background-color: rgb(247, 247, 247);
 }
 
 .container {
@@ -193,7 +198,7 @@ button {
     border: 8px solid #fff;
     border-radius: 50%;
     animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: #fd0303 transparent transparent transparent;
+    border-color: #52fd03 transparent transparent transparent;
 
     &:nth-child(1) {
       animation-delay: -0.45s;
