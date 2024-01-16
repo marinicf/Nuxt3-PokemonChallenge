@@ -24,6 +24,7 @@
         v-model="userGuess"
         type="text"
         @keyup="checkGuess"
+        :disabled="gameResult"
       />
       <p>{{ guessedCount }}/151</p>
       <div class="container">
@@ -41,6 +42,10 @@
 </template>
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
+
+const pokemonStore = usePokemonStore();
+const { pokemons } = storeToRefs(pokemonStore);
 
 const userGuess = ref('');
 const gameStarted = ref(true);
@@ -71,10 +76,13 @@ const startGame = () => {
   getRandomPokemon();
   gameStarted.value = true;
   //guessedCount.value = 0;
-  guessedPokemons.value = [];
 };
 const stopGame = () => {
   gameStarted.value = false;
+};
+
+const addToPokedex = (pokemonId, pokemon) => {
+  pokemonStore.addPokemon(pokemonId, pokemon);
 };
 
 const checkGuess = () => {
@@ -83,7 +91,10 @@ const checkGuess = () => {
       gameResult.value = true;
       guessedPokemons.push(targetPokemon.value);
 
+      addToPokedex(targetPokemon.value.id, targetPokemon.value);
+
       blacklist.push(currentPokemon);
+      console.log(blacklist.length);
       setTimeout(() => {
         getRandomPokemon();
       }, 2000);
