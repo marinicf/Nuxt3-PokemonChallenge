@@ -14,8 +14,10 @@
           v-if="!fetching"
           :src="targetPokemon.sprites.other['official-artwork'].front_default"
           :class="gameResult ? '' : 'blackout'"
+          class="sprite"
           alt="Random Pokémon"
           disabled
+          ref="myInput"
         />
       </div>
       <input
@@ -25,9 +27,10 @@
         type="text"
         @keyup="checkGuess"
         :disabled="gameResult"
+        autofocus
       />
       <p>{{ guessedCount }}/151</p>
-      <div class="container">
+      <div class="container-control">
         <button @click="stopGame">Stop</button>
         <button @click="getRandomPokemon" :disabled="fetching">Skip</button>
       </div>
@@ -41,23 +44,20 @@
   </div>
 </template>
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue';
-import { storeToRefs } from 'pinia';
+import { ref, computed, onMounted } from 'vue';
 
 const pokemonStore = usePokemonStore();
-const { pokemons } = storeToRefs(pokemonStore);
+const { blacklist } = pokemonStore;
 
 const userGuess = ref('');
 const gameStarted = ref(true);
 const targetPokemon = ref('');
 const gameResult = ref(false);
 const fetching = ref(false);
-let blacklist = [],
-  N = 152,
-  currentPokemon = 0;
+//let blacklist = [],
+let N = 152;
+let currentPokemon = 0;
 
-//const guessedPokemons = reactive(new Array(151).fill(null));
-const guessedPokemons = reactive([]);
 const getRandomPokemon = async () => {
   userGuess.value = '';
 
@@ -76,6 +76,7 @@ const startGame = () => {
   getRandomPokemon();
   gameStarted.value = true;
   //guessedCount.value = 0;
+  //myInput.value.focus()
 };
 const stopGame = () => {
   gameStarted.value = false;
@@ -86,20 +87,19 @@ const addToPokedex = (pokemonId, pokemon) => {
 };
 
 const checkGuess = () => {
-  if (userGuess.value) {
+  if (userGuess.value && targetPokemon.value) {
     if (userGuess.value.toLowerCase() === targetPokemon.value.name) {
+      //fetching.value = true;
       gameResult.value = true;
-      guessedPokemons.push(targetPokemon.value);
 
       addToPokedex(targetPokemon.value.id, targetPokemon.value);
 
       blacklist.push(currentPokemon);
-      console.log(blacklist.length);
       setTimeout(() => {
         getRandomPokemon();
       }, 2000);
     }
-    if (guessedPokemons.length >= 151) {
+    if (blacklist.values.length >= 151) {
       gameStarted.value = false;
     }
   }
@@ -140,7 +140,7 @@ const getRandomPokemonId = () => {
 const gameResultMessage =
   'Congratulations! You guessed the all Pokémons correctly.';
 
-const guessedCount = computed(() => guessedPokemons.length);
+const guessedCount = computed(() => pokemonStore.guessedCount);
 
 onMounted(() => {
   startGame();
@@ -150,16 +150,19 @@ onMounted(() => {
 <style scoped lang="scss">
 .blackout {
   filter: brightness(0%);
+  //opacity: 0;
 }
 
 .item {
   text-align: center;
-  padding: 1rem 6rem;
+  width: 100%;
+  height: 100%;
+  // padding: 1rem 6rem;
   border: 0.3125rem solid rgb(76, 187, 174);
   color: rgb(0, 0, 0);
   border-width: 7px;
   border-style: solid;
-  border-image: linear-gradient(to bottom, rgb(2, 255, 18), rgba(0, 0, 0, 0)) 1
+  border-image: linear-gradient(to bottom, rgb(3, 3, 3), rgba(0, 0, 0, 0)) 1
     100%;
   background-color: rgb(247, 247, 247);
 }
@@ -167,6 +170,12 @@ onMounted(() => {
 .container {
   display: flex;
   justify-content: space-evenly;
+}
+
+.container-control {
+  display: flex;
+  justify-content: space-evenly;
+  padding-bottom: 10px;
 }
 
 .guess {
@@ -209,7 +218,7 @@ button {
     border: 8px solid #fff;
     border-radius: 50%;
     animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: #52fd03 transparent transparent transparent;
+    border-color: #03fde4 transparent transparent transparent;
 
     &:nth-child(1) {
       animation-delay: -0.45s;
@@ -231,6 +240,45 @@ button {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@media (min-width: 475px) {
+  .container {
+    max-width: 475px;
+  }
+  .sprite {
+    width: 300px;
+    height: 300px;
+  }
+}
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+  .sprite {
+    width: 400px;
+    height: 400px;
+  }
+}
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
   }
 }
 </style>

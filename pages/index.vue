@@ -3,18 +3,14 @@
     <NuxtLink class="transparent-button" to="/game">Start Game</NuxtLink>
   </div>
 </template>
-<script setup>
-import { ref, reactive, computed, onMounted } from 'vue';
-
-const pokedex = ref(new Array(151).fill('null'));
-</script>
+<script setup></script>
 <style scoped lang="scss">
 .con {
   display: flex;
   justify-content: center;
 
-  background-image: url('../assets/images/pikachu.jpg');
-  width: 100%;
+  background-image: url('../assets/images/greedPikachu.jpg');
+  width: 60rem;
   height: 900px; /* Set the desired height */
   background-size: cover; /* Adjust as needed (cover, contain, etc.) */
   background-position: center center; /* Adjust the position if needed */
@@ -23,24 +19,14 @@ const pokedex = ref(new Array(151).fill('null'));
 
 /* Style for a transparent button */
 .transparent-button {
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0
-  ); /* Black with 0% opacity (fully transparent) */
-  border: 0; /* No border */
+  color: rgb(140, 135, 135);
   padding: 10px 20px;
-  color: #333; /* Default text color */
-  cursor: pointer;
-  margin-top: 200px;
+  margin: 200px 0px 500px 0px;
   font-size: 50px;
+  text-decoration: none;
 
   &:hover {
-    color: #13cc1f(116, 255, 3); /* Text color on hover */
+    color: #cc7313(116, 255, 3); /* Text color on hover */
   }
-
-  /* Adding a smooth transition for a nice visual effect on color change */
-  transition: color 0.3s ease-in-out;
 }
 </style>

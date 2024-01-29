@@ -1,71 +1,118 @@
 <template>
-  <div class="progressBar">
-    <div class="progress"></div>
+  <div class="progress-bar">
+    <div class="progress" :style="{ width: `${progressPercentage}%` }">
+      <p class="progress-num">
+        {{ `${Math.round(progressPercentage * 100) / 100}%` }}
+      </p>
+    </div>
   </div>
 
-  <div class="container">
-    <div v-for="p in pokemons">
-      <NuxtLink class="item" :to="'pokedex/' + p.id">
-        <p class="pokeId">{{ p.id ? '#' + p.id : '' }}</p>
-        <img :src="p.id ? p.sprites.front_default : ''" alt="pokemon" />
-        <p class="pokeName">{{ p.name ? p.name : '' }}</p>
+  <div class="grid-container">
+    <div v-for="p in allPokemons" :key="p.id" class="card-container">
+      <PokedexCard v-if="p.abilities" class="item" :pokemon="p"></PokedexCard>
+      <NuxtLink v-else class="item" :to="'pokedex/' + p.id">
+        <img src="~assets/images/mark.png" alt="pokemon" class="mark" />
       </NuxtLink>
     </div>
-    <!-- <div class="item" v-for="p in pokemons">
-      <p class="pokeId">{{ p.id ? '#' + p.id : '' }}</p>
-      <img :src="p.id ? p.sprites.front_default : ''" alt="pokemon" />
-      <p class="pokeName">{{ p.name ? p.name : '' }}</p>
-      <Card
-        v-for="p in pokemons"
-        :id="p.id"
-        :sprite="p.sprites.front_default"
-        :name="p.name"
-      ></Card>
-    </div> -->
   </div>
 </template>
 <script setup>
-import { ref } from 'vue';
-import { storeToRefs } from 'pinia';
+import { ref, onMounted } from 'vue';
 
 const progress = ref(0);
-
 const pokemonStore = usePokemonStore();
-let { pokemons } = storeToRefs(pokemonStore);
+const { allPokemons, progressPercentage } = pokemonStore;
+
+onMounted(() => {
+  if (process.client && window) {
+    window.history.scrollRestoration = 'auto';
+  }
+});
 </script>
 <style scoped lang="scss">
-/* Style for a transparent button */
-.container {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 40px 100px;
-  align-content: flex-start;
-  gap: 50px;
+.grid-container {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  padding: 1rem;
 }
 .item {
-  background-color: #fff;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  background-color: #fff;
   text-decoration: none;
   color: black;
-
-  width: 200px;
-  height: 200px;
-  border: 2px solid rgb(28, 203, 2);
-  border-radius: 40px;
-  &:hover {
-    border-color: #1c40d0;
-  }
-  .pokeId {
-    color: black;
-  }
-}
-.progressBar {
+  box-shadow: rgba(3, 8, 20, 0.1) 0px 0.15rem 0.5rem,
+    rgba(2, 8, 20, 0.1) 0px 0.075rem 0.175rem;
   width: 100%;
+  height: 100%;
+  border-radius: 40px;
+  transition: all 100ms;
+  padding: 10px;
+  &:hover {
+    box-shadow: rgba(2, 8, 20, 0.1) 0px 0.35rem 1.175rem,
+      rgba(2, 8, 20, 0.8) 0px 0.175rem 0.5rem;
+    transform: translateY(-3px) scale(1.1);
+  }
 }
-.progress {
-  background-color: green;
+.mark {
+  width: 100%;
+  height: 100%;
+}
+.progress-bar {
+  border: 1px solid;
+  border-radius: 10px;
+  width: 100%;
+  margin: 1rem 0 0 0;
+  .progress {
+    border: 1px solid black;
+    border-radius: 10px;
+    height: 3rem;
+    background-color: rgb(28, 237, 94);
+    .progress-num {
+      text-align: center;
+    }
+  }
+}
+@media (min-width: 150px) {
+  .container {
+    max-width: 150px;
+  }
+}
+
+@media (min-width: 475px) {
+  .container {
+    max-width: 475px;
+  }
+}
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+  .item {
+    height: 96%;
+  }
+}
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+  }
 }
 </style>
