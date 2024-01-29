@@ -1,9 +1,11 @@
 <template>
-  <div v-if="gameStarted" class="container">
+  <div class="container">
     <div class="item item-1">
       <h1>Who's that Pokémon?</h1>
       <div v-if="targetPokemon">
-        <h2 v-if="gameResult && targetPokemon">{{ targetPokemon.name }}</h2>
+        <h2 class="poke-name" v-if="gameResult && targetPokemon">
+          {{ targetPokemon.name }}
+        </h2>
         <div class="lds-ring" v-if="fetching">
           <div></div>
           <div></div>
@@ -31,15 +33,9 @@
       />
       <p>{{ guessedCount }}/151</p>
       <div class="container-control">
-        <button @click="stopGame">Stop</button>
+        <button @click="stopGame">Reset</button>
         <button @click="getRandomPokemon" :disabled="fetching">Skip</button>
       </div>
-    </div>
-  </div>
-  <div v-else>
-    <div>
-      <h1>{{ gameResultMessage }}</h1>
-      <button @click="startGame">Restart</button>
     </div>
   </div>
 </template>
@@ -80,6 +76,7 @@ const startGame = () => {
 };
 const stopGame = () => {
   gameStarted.value = false;
+  pokemonStore.guessedCount = 0;
 };
 
 const addToPokedex = (pokemonId, pokemon) => {

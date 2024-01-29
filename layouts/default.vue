@@ -1,38 +1,35 @@
 <template>
-  <div>
-    <header>
-      <nav class="navbar">
-        <ul>
-          <li>
-            <NuxtLink to="/game">
-              <img
-                src="/assets/images/textGame.png"
-                alt="pokedex"
-                class="nav-game"
-              />
-            </NuxtLink>
-          </li>
-          <li>
-            <NuxtLink to="/pokedex">
-              <img
-                src="/assets/images/textPokedex.png"
-                alt="pokedex"
-                class="nav-pokedex"
-              />
-            </NuxtLink>
-          </li>
-          <!-- <li>
+  <header>
+    <nav class="navbar">
+      <ul>
+        <li>
+          <NuxtLink to="/game">
+            <img
+              src="/assets/images/textGame.png"
+              alt="pokedex"
+              class="nav-item nav-game"
+            />
+          </NuxtLink>
+        </li>
+        <li>
+          <NuxtLink to="/pokedex">
+            <img
+              src="/assets/images/textPokedex.png"
+              alt="pokedex"
+              class="nav-item nav-pokedex"
+            />
+          </NuxtLink>
+        </li>
+        <!-- <li>
             <NuxtLink></NuxtLink>
           </li> -->
-        </ul>
-      </nav>
-    </header>
-    <div>
-      <div class="container">
-        <div class="item item-1">
-          <slot></slot>
-        </div>
-      </div>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="item item-1">
+      <slot></slot>
     </div>
   </div>
 </template>
@@ -68,6 +65,8 @@ header {
 }
 .item {
   width: 100%;
+
+  height: 200px;
 }
 .nav-game {
   width: 100%;
@@ -119,12 +118,11 @@ nav {
 @media (min-width: 475px) {
   .container {
     max-width: 475px;
-    grid-template-columns: repeat(2, auto);
+    grid-template-columns: repeat(1, auto);
     grid-template-rows: repeat(2, auto);
     // background-color: red;
     .item-1 {
-      grid-area: 2 / 1 /2 /2;
-      height: 200px;
+      grid-area: 1 / 1 /2 /2;
       width: 100%;
     }
     .button-container {
@@ -161,14 +159,6 @@ nav {
   .container {
     max-width: 1024px;
     // background-color: rgb(9, 198, 231);
-    grid-template-columns: repeat(3, auto);
-    grid-template-rows: repeat(1, auto);
-
-    .item-1 {
-      grid-area: 1/ 2 /2 /3;
-
-      height: 100%;
-    }
   }
 }
 @media (min-width: 1280px) {

@@ -21,13 +21,33 @@
         </div>
       </div>
     </div>
-    <div class="flex-stats-container">
+    <!-- <div class="flex-stats-container">
       <div class="stats-item" v-for="stat in selectedPokemon.stats">
         <p>{{ `${getStatsName(stat.stat.name)} -> ${stat.base_stat}` }}</p>
       </div>
-    </div>
-    <div>
+    </div> -->
+    <div class="stats-container">
       <!-- <PokemonStatsChart></PokemonStatsChart> -->
+      <div class="table-stats">
+        <table>
+          <tr v-for="stat in selectedPokemon.stats">
+            <th class="stat-img">
+              <img :src="getStatsImageUrl(stat.stat.name)" alt="" />
+            </th>
+            <th>{{ `${getStatsName(stat.stat.name)}` }}</th>
+            <td>
+              <div class="stat-bar">
+                <div
+                  class="stat"
+                  :style="{ width: `${(stat.base_stat / 200) * 100}%` }"
+                >
+                  {{ `${stat.base_stat}` }}
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -35,6 +55,9 @@
 import { onMounted } from 'vue';
 const getImageUrl = (t) => {
   return new URL(`/assets/images/pokemon_types/${t}.png`, import.meta.url);
+};
+const getStatsImageUrl = (s) => {
+  return new URL(`/assets/images/stats/${s}.png`, import.meta.url);
 };
 const uppercase = computed(() => pokemonName.value.toUpperCase());
 const getStatsName = (stat) => {
@@ -91,7 +114,7 @@ onMounted(() => {
       height: 4rem;
 
       text-align: center;
-      border: 1px solid;
+      border: 1px solid rgb(66, 182, 221);
       justify-content: space-around;
       .name {
         margin: 0;
@@ -104,8 +127,8 @@ onMounted(() => {
       height: auto;
       width: auto;
       text-align: center;
-      border-left: 1px solid;
-      border-right: 1px solid;
+      border-left: 1px solid rgb(66, 182, 221);
+      border-right: 1px solid rgb(66, 182, 221);
       .pokedexImage {
         width: auto;
         height: auto;
@@ -120,7 +143,7 @@ onMounted(() => {
       height: 5rem;
       text-align: center;
       padding-top: 1rem;
-      border: 1px solid;
+      border: 1px solid rgb(66, 182, 221);
       display: flex;
       flex-direction: row;
       justify-content: center;
@@ -146,6 +169,51 @@ onMounted(() => {
       padding: 0 5rem;
       font-size: 1.9rem;
       border: 1px solid rgb(0, 0, 0);
+    }
+  }
+  .stats-container {
+    margin-top: 40px;
+    .table-stats {
+      table {
+        border: 1px inset rgb(66, 182, 221);
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+
+      /* Style for table header cells */
+      th {
+        background-color: #f2f2f2;
+        padding: 10px;
+        text-align: left;
+      }
+
+      /* Style for table data cells */
+      td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      /* Alternate row background color for better readability */
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      /* Add hover effect to table rows */
+      tr:hover {
+        background-color: #e6e6e6;
+      }
+      .stat-bar {
+        border: 1px solid;
+        border-radius: 10px;
+        width: 15rem;
+        margin: 1rem 0 0 0;
+        text-align: center;
+        .stat {
+          background-color: rgb(66, 182, 221);
+          border-radius: 10px;
+        }
+      }
     }
   }
 }
@@ -226,8 +294,8 @@ onMounted(() => {
         margin-top: 0;
       }
     }
-    .flex-stats-container {
-      margin: 0;
+    .stats-container {
+      margin-top: 100px;
     }
   }
 }
