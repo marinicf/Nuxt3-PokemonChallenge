@@ -1,6 +1,8 @@
 <template>
   <div class="con">
-    <NuxtLink class="transparent-button" to="/game">Start Game</NuxtLink>
+    <NuxtLink class="transparent-button" to="/game"
+      ><img src="../assets/images/start.png" alt=""
+    /></NuxtLink>
   </div>
 </template>
 <script setup></script>
@@ -9,8 +11,8 @@
   display: flex;
   justify-content: center;
 
-  background-image: url('../assets/images/greedPikachu.jpg');
-  width: 60rem;
+  background-image: url('../assets/images/Pikachu.jpg');
+  width: 100%;
   height: 900px; /* Set the desired height */
   background-size: cover; /* Adjust as needed (cover, contain, etc.) */
   background-position: center center; /* Adjust the position if needed */
@@ -19,7 +21,7 @@
 
 /* Style for a transparent button */
 .transparent-button {
-  color: rgb(140, 135, 135);
+  color: rgb(234, 201, 53);
   padding: 10px 20px;
   margin: 200px 0px 500px 0px;
   font-size: 50px;
